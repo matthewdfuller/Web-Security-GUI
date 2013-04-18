@@ -1,0 +1,55 @@
+{% extends "manage/manage_index.html" %}
+
+{% block title %}
+    Resources
+{% endblock %}
+
+{% block nav-help %}class="active"{% endblock %}
+
+{% block manage_content %}
+<h1 class="page-title" id="page-title">Resources</h1>
+
+<!--BEGIN HELP BOX-->
+<div id="help-box" class="faq-content">
+    <div class="well">
+        Below are various links and resources related to web security and the checks performed by this scan. Hopefully these will point you in the right direction for implementing the various security standards.
+        <hr>
+        <h2>HTTPS</h2>
+        <ul>
+            <li>SSL Background: <a href="http://en.wikipedia.org/wiki/HTTP_Secure">http://en.wikipedia.org/wiki/HTTP_Secure</a></li>
+            <li>Secure Cookie Flag: <a href="https://www.owasp.org/index.php/SecureFlag">https://www.owasp.org/index.php/SecureFlag</a></li>
+            <li>Strict Transport Security: <a href="http://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security">http://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security</a></li>
+            <li>Strict Transport Security: <a href="https://developer.mozilla.org/en-US/docs/Security/HTTP_Strict_Transport_Security">https://developer.mozilla.org/en-US/docs/Security/HTTP_Strict_Transport_Security</a></li>
+            <li>Mixed Content: <a href="https://www.golemtechnologies.com/articles/mixed-content">https://www.golemtechnologies.com/articles/mixed-content</a></li>
+        </ul>
+        
+        <h2>Cookie Security</h2>
+        <ul>
+            <li>HTTPOnly Cookie Flag: <a href="https://www.owasp.org/index.php/HttpOnly">https://www.owasp.org/index.php/HttpOnly</a></li>
+        </ul>
+        
+        <h2>Form Security</h2>
+        <ul>
+            <li>HTTPS Form Security: <a href="http://stackoverflow.com/questions/274274/is-it-secure-to-submit-from-a-http-form-to-https">http://stackoverflow.com/questions/274274/is-it-secure-to-submit-from-a-http-form-to-https</a></li>
+            <li>Cross-Site Request Forgery (CSRF): <a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)">https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)</a></li>
+        </ul>
+        
+        <h2>Additional Header Checks</h2>
+        <ul>
+            <li>X-Frame-Options Header: <a href="https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options">https://developer.mozilla.org/en-US/docs/HTTP/X-Frame-Options</a></li>
+        </ul>
+        
+        <h2>Content Security Policy</h2>
+        <ul>
+            <li>CSP Tutorial: <a href="http://www.html5rocks.com/en/tutorials/security/content-security-policy/">http://www.html5rocks.com/en/tutorials/security/content-security-policy/</a></li>
+        </ul>
+        
+        <h2>Additional Web Security Resources</h2>
+        <ul>
+            <li>OWASP is an excellent resource for many web security topics: <a href="https://www.owasp.org/index.php/Main_Page">https://www.owasp.org/index.php/Main_Page</a></li>
+        </ul>
+    </div>
+</div>
+<!-- END HELP BOX-->
+
+{% endblock %}

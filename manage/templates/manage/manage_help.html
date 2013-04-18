@@ -1,0 +1,74 @@
+{% extends "manage/manage_index.html" %}
+
+{% block title %}
+    Help and FAQ
+{% endblock %}
+
+{% block nav-help %}class="active"{% endblock %}
+
+{% block manage_content %}
+<h1 class="page-title" id="page-title">Help and FAQ</h1>
+
+<!--BEGIN HELP BOX-->
+<div id="help-box" class="faq-content">
+    <div class="well">
+        <h2>Frequently Asked Questions</h2>
+        <ol>
+            <li><a href="#q1">What is this service?</a></li>
+            <li><a href="#q2">How much does it cost?</a></li>
+            <li><a href="#q3">Will this break my website?</a></li>
+            <li><a href="#q4">What kinds of things are checked?</a></li>
+            <li><a href="#q5">Does my site really need everything recommended here?</a></li>
+            <li><a href="#q6">Why don't I need to validate my site? Can't anyone use this to scan any website?</a></li>
+            <li><a href="#q7">Is this legal?</a></li>
+            <li><a href="#q8">If it's legal then why can't I scan sites ending in .gov?</a></li>
+            <li><a href="#q9">How is the grade determined?</a></li>
+            <li><a href="#q10">How can I improve my grade?</a></li>
+            <li><a href="#q11">Can I share my results?</a></li>
+            <li><a href="#q12">Why did a check give me the wrong response? I know I have ___ implemented but it returned 'fail'.</a></li>
+            <li><a href="#q13">But this site scored less than 100%! Why can you not get a 100?</a></li>
+            <li><a href="#q14">So who are you and what are your credentials?</a></li>
+            <li><a href="#q15">Why is this hosted on a .tk domain? Isn't that kind of shady?</a></li>
+        </ol>
+
+        <hr>
+
+        <h2>Frequently Asked Questions</h2>
+        <h3 id="q1">What is this service?</h3>
+        <p>This is a security scanning service. Using passive scanning techniques, it will check a website to ensure compliance with a number of common and recommended security standards.</p>
+        <h3 id="q2">How much does it cost?</h3>
+        <p>Nothing! It's 100% free to use this service. The goal is to improve security across the internet and make security checks easily accessible to developers who may not be knowledgeable about all the security protocols they should be using.</p>
+        <h3 id="q3">Will this break my website?</h3>
+        <p>No. Although security scanners have a reputation for throwing thousands of requests per minute at a website (and sometimes DOSing it in the process), this tool makes only two (three for HTTPS) requests to your site. It will not submit any forms or data, nor will it download files or otherwise harm your site in any way. Think of it as two people loading your web page.</p>
+        <h3 id="q4">What kinds of things are checked?</h3>
+        <p>This scanner will check your response headers and page body for a number of common web security standards. For example, it will check for the presence of X-Frame-Options, the HttpOnly and Secure flags for cookies, the use of HTTPS, etc. It does not current support checking for other known vulnerabilities such as cross-site scripting or SQL injection (that would require more intense scans).</p>
+        <h3 id="q5">Does my site really need everything recommended here?</h3>
+        <p>It depends. This site is aiming for an absolute best security approach. If you are scanning a blog or a simple static site, you probably don't need HTTPS or X-Frame-Options might be overkill. This scan works best for slightly more complex web apps that may have login forms, transfer sensitive user information, or otherwise require more security. This doesn't mean you can't scan simple sites; it just means the results will be much less helpful.</p>
+        <h3 id="q6">Why don't I need to validate my site? Can't anyone use this to scan any website?</h3>
+        <p>Yes, anyone can scan any website (with a few exceptions). However, unlike other scanners this is not actively checking for vulnerabilities but instead passively looking at the response that everyone receives. In other words, anyone can see the data this tool sees simply by visiting the web page. There is no 'hacking' or attacking occurring.</p>
+        <h3 id="q7">Is this legal?</h3>
+        <p>I'm not a lawyer, so this is answer is offered "as is." However, this scan does nothing more than perform a GET request of the URL in question and analyze the headers and content for various security best practices. There is no modification of content, cookies, URL parameters, or any other kind of injection or repeated requesting. If you are a site owner and still do not feel comfortable allowing others to send this request, you may add your site to the blacklist via the email in the footer. This being said, you ARE legally responsible for any action you take using these results. So if it tells you that site X doesn't use STS and you perform a man-in-the-middle attack, you're legally responsible.</p>
+        <h3 id="q8">If it's legal then why can't I scan sites ending in .gov?</h3>
+        <p>Because discussing the answer to the previous question with federal agents in my apartment is not something I have planned for this week.</p>
+        <h3 id="q9">How is the grade determined?</h3>
+        <p>The grade is a percentage calculated based on the number of tests successfully performed (not those skipped or that returned an error) and the result of each test. Each test is given a severity ranking based on how large of a security concern and how exploitable the vulnerability is (I assigned these; they are based on my research and may not represent real world conditions for every website). Based on this ranking, a numerical value between 0 and 10 is given to the test for 'possible points.' Then, based on the results, either some or all of those points will be added to the score for later calculation of a percentage.</p>
+        <h3 id="q10">How can I improve my grade?</h3>
+        <p>Within each test result, there is a tab for 'More Information.' For many of the tests, it includes information about implementing the security practice or includes links that provide further instruction. By adding the security check and re-running the scan, your grade should improve if the scan was successful and the check implemented correctly.</p>
+        <h3 id="q11">Can I share my results?</h3>
+        <p>Yes! Every scan is given a unique id that is also part of the URL. Simply copy the URL and share it. Because results contain a lot of information (and I don't have infinite storage for the site's database) results may be deleted after 30 days.</p>
+        <h3 id="q12">Why did a check give me the wrong response? I know I have ___ implemented but it returned 'fail'.</h3>
+        <p>Because this is a learning project I finished up in a weekend and there are probably errors. I did my best to implement the checks, but there will undoubtedly be something that it misses or reads incorrectly. If you find a glaring error, feel free to shoot me an email at matthewdf10 (at) gmail (dot) com.</p>
+        <h3 id="q13">But this site scored less than 100%! Why can you not get a 100?</h3>
+        <p>Yes, I've scanned the site with itself. As I mentioned, not every security check is necessary for every website. The score reflects adherence to a long list of security policies, many of which may be excessive for a very simple site. It is ultimately up to the developer to implement the necessary precautions; this site simply helps point out if something might be missing.</p>
+        <h3 id="q14">So who are you and what are your credentials?</h3>
+        <p>I'm a student studying computer networking and security. I've done a lot of research, reading, and project development on my own time related to web application security. I've also had multiple internships working in network and application security, including a six month co-op at Mozilla where I worked primarily with web application security where I worked on a larger scale version of something similar to this. I am certainly not an expert! I made this project as a learning experience for me, as well as to help improve security around the web. I enjoy hacking on personal projects, setting up services in VMs and breaking them, and responsibly reporting web security bugs. My email is matthewdf10 (at) gmail (dot) com if you have additional questions.</p>
+        <h3 id="q15">Why is this hosted on a .tk domain? Isn't that kind of shady?</h3>
+        <p>Dot TK domains are free. I'm not making any money from this service so I don't plan to spend extra money on it.</p>
+        <a href="#" style="float: right; line-height: 1.25em; display: inline-block; padding: .75em 0em;"><i class="icon-circle-arrow-up"></i> Top</a>
+        <hr>
+        
+    </div>
+</div>
+<!-- END HELP BOX-->
+
+{% endblock %}

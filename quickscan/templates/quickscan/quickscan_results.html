@@ -1,0 +1,360 @@
+{% extends "quickscan/quickscan_index.html" %}
+
+{% block nav-overview %}class="active"{% endblock %}
+
+{% block quickscan_content %}
+    
+<script type="text/javascript">
+    var scan_uuid = "{{scan_uuid}}";
+</script>
+<h1 class="page-title" id="page-title">Site Report Card</h1>
+
+<!--FIRST ROW OF RESULTS - SITE GRADE, SCAN DETAILS-->
+<div class="row-fluid">
+    <div class="block span6">
+        <p class="block-heading">Site Grade</p>
+        <div id="grade-container" class="block-body">
+            {% if scan_status == "done" %}
+                {{scan_grade}}
+            {% else %}
+                <i class="icon-spinner icon-spin" id="icon-spinner"></i>
+                <div class="spinner-status">Your scan may take several moments to complete...</div>
+            {% endif %}
+        </div>
+        
+    </div>
+    <div class="block span6">
+        <div class="block-heading">Scan Information</div>
+        <div id="tablewidget" class="block-body">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td><strong>Scan ID</strong></td>
+                        <td>{{scan_uuid}}</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Run Date</strong></td>
+                      <td>
+                        {% load tz %}
+                        {% localtime on %}
+                            {{scan_date}}
+                        {% endlocaltime %}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><strong>Scanned URL</strong></td>
+                      <td>{{scan_url}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--END FIRST ROW OF RESULTS-->
+
+<a href="#" id="expand-all">[ + Expand All ]</a> <a href="#" id="collapse-all">[ - Collapse All ]</a><br/><br/>
+
+<!--SECOND ROW OF RESULTS-->
+<div class="row-fluid">
+    <div class="span6">
+        {% if scan_status == "done" %}
+            <h2>HTTPS Checks</h2>
+            {% for test in scan_results_https %}
+                <div class="block">
+                    <div class="block-heading collapsed" data-toggle="collapse" data-target="#widget{{test.test_name}}container">
+                        {% if test.result == "pass" %}
+                            <i class="icon-check"></i> {{test.test_name_human}}
+                        {% elif test.result == "skip" or test.result == "unknown" %}
+                            <i class="icon-info-sign"></i> {{test.test_name_human}}<span class="label label-info">Skipped</span>
+                        {% else %}
+                            <i class="icon-check-empty"></i> {{test.test_name_human}}<span class="label label-important">Warning</span>
+                        {% endif %}
+                        
+                    </div>
+                    <div id="widget{{test.test_name}}container" class="block-body collapse results-collapse">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#{{test.test_name}}-result" data-toggle="tab">Result</a></li>
+                            <li><a href="#{{test.test_name}}-description" data-toggle="tab">Test Description</a></li>
+                            <li><a href="#{{test.test_name}}-severity" data-toggle="tab">Severity</a></li>
+                            <li><a href="#{{test.test_name}}-moreinfo" data-toggle="tab">More Info</a></li>
+                            <li><a href="#{{test.test_name}}-rawdata" data-toggle="tab">Raw Data</a></li>
+                        </ul>
+                        <div id="{{test.test_name}}-myTabContent" class="tab-content">
+                            <div class="tab-pane active in" id="{{test.test_name}}-result">
+                                <p>{{test.result}}: {{test.result_human}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-description">
+                                <p>{{test.description}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-severity">
+                                <p>{{test.severity}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-moreinfo">
+                                <p>{{test.moreinfo}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-rawdata">
+                                <p>{{test.raw_data}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="span6">
+        {% if scan_status == "done" %}
+            <h2>Cookie Security</h2>
+            {% for test in scan_results_cookie %}
+                <div class="block">
+                    <div class="block-heading collapsed" data-toggle="collapse" data-target="#widget{{test.test_name}}container">
+                        {% if test.result == "pass" %}
+                            <i class="icon-check"></i> {{test.test_name_human}}
+                        {% elif test.result == "skip" or test.result == "unknown" %}
+                            <i class="icon-info-sign"></i> {{test.test_name_human}}<span class="label label-info">Skipped</span>
+                        {% else %}
+                            <i class="icon-check-empty"></i> {{test.test_name_human}}<span class="label label-important">Warning</span>
+                        {% endif %}
+                        
+                    </div>
+                    <div id="widget{{test.test_name}}container" class="block-body collapse results-collapse">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#{{test.test_name}}-result" data-toggle="tab">Result</a></li>
+                            <li><a href="#{{test.test_name}}-description" data-toggle="tab">Test Description</a></li>
+                            <li><a href="#{{test.test_name}}-severity" data-toggle="tab">Severity</a></li>
+                            <li><a href="#{{test.test_name}}-moreinfo" data-toggle="tab">More Info</a></li>
+                            <li><a href="#{{test.test_name}}-rawdata" data-toggle="tab">Raw Data</a></li>
+                        </ul>
+                        <div id="{{test.test_name}}-myTabContent" class="tab-content">
+                            <div class="tab-pane active in" id="{{test.test_name}}-result">
+                                <p>{{test.result}}: {{test.result_human}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-description">
+                                <p>{{test.description}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-severity">
+                                <p>{{test.severity}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-moreinfo">
+                                <p>{{test.moreinfo}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-rawdata">
+                                <p>{{test.raw_data}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<!--END SECOND ROW OF RESULTS-->
+
+<hr/>
+
+<!-- THIRD ROW OF RESULTS-->
+<div class="row-fluid">
+    <div class="span6">
+        {% if scan_status == "done" %}
+            <h2>Form Security</h2>
+            {% for test in scan_results_form %}
+                <div class="block">
+                    <div class="block-heading collapsed" data-toggle="collapse" data-target="#widget{{test.test_name}}container">
+                        {% if test.result == "pass" %}
+                            <i class="icon-check"></i> {{test.test_name_human}}
+                        {% elif test.result == "skip" or test.result == "unknown" %}
+                            <i class="icon-info-sign"></i> {{test.test_name_human}}<span class="label label-info">Skipped</span>
+                        {% else %}
+                            <i class="icon-check-empty"></i> {{test.test_name_human}}<span class="label label-important">Warning</span>
+                        {% endif %}
+                        
+                    </div>
+                    <div id="widget{{test.test_name}}container" class="block-body collapse results-collapse">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#{{test.test_name}}-result" data-toggle="tab">Result</a></li>
+                            <li><a href="#{{test.test_name}}-description" data-toggle="tab">Test Description</a></li>
+                            <li><a href="#{{test.test_name}}-severity" data-toggle="tab">Severity</a></li>
+                            <li><a href="#{{test.test_name}}-moreinfo" data-toggle="tab">More Info</a></li>
+                            <li><a href="#{{test.test_name}}-rawdata" data-toggle="tab">Raw Data</a></li>
+                        </ul>
+                        <div id="{{test.test_name}}-myTabContent" class="tab-content">
+                            <div class="tab-pane active in" id="{{test.test_name}}-result">
+                                <p>{{test.result}}: {{test.result_human}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-description">
+                                <p>{{test.description}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-severity">
+                                <p>{{test.severity}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-moreinfo">
+                                <p>{{test.moreinfo}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-rawdata">
+                                <p>{{test.raw_data}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="span6">
+        {% if scan_status == "done" %}
+            <h2>Additional Header Checks</h2>
+            {% for test in scan_results_header %}
+                <div class="block">
+                    <div class="block-heading collapsed" data-toggle="collapse" data-target="#widget{{test.test_name}}container">
+                        {% if test.result == "pass" %}
+                            <i class="icon-check"></i> {{test.test_name_human}}
+                        {% elif test.result == "skip" or test.result == "unknown" %}
+                            <i class="icon-info-sign"></i> {{test.test_name_human}}<span class="label label-info">Skipped</span>
+                        {% else %}
+                            <i class="icon-check-empty"></i> {{test.test_name_human}}<span class="label label-important">Warning</span>
+                        {% endif %}
+                        
+                    </div>
+                    <div id="widget{{test.test_name}}container" class="block-body collapse results-collapse">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#{{test.test_name}}-result" data-toggle="tab">Result</a></li>
+                            <li><a href="#{{test.test_name}}-description" data-toggle="tab">Test Description</a></li>
+                            <li><a href="#{{test.test_name}}-severity" data-toggle="tab">Severity</a></li>
+                            <li><a href="#{{test.test_name}}-moreinfo" data-toggle="tab">More Info</a></li>
+                            <li><a href="#{{test.test_name}}-rawdata" data-toggle="tab">Raw Data</a></li>
+                        </ul>
+                        <div id="{{test.test_name}}-myTabContent" class="tab-content">
+                            <div class="tab-pane active in" id="{{test.test_name}}-result">
+                                <p>{{test.result}}: {{test.result_human}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-description">
+                                <p>{{test.description}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-severity">
+                                <p>{{test.severity}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-moreinfo">
+                                <p>{{test.moreinfo}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-rawdata">
+                                <p>{{test.raw_data}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<!--END THIRD ROW OF RESULTS-->
+
+<hr/>
+
+<!-- FOURTH ROW OF RESULTS-->
+<div class="row-fluid">
+    <div class="span6">
+        {% if scan_status == "done" %}
+            <h2>Content Security Policy</h2>
+            {% for test in scan_results_csp %}
+                <div class="block">
+                    <div class="block-heading collapsed" data-toggle="collapse" data-target="#widget{{test.test_name}}container">
+                        {% if test.result == "pass" %}
+                            <i class="icon-check"></i> {{test.test_name_human}}
+                        {% elif test.result == "skip" or test.result == "unknown" %}
+                            <i class="icon-info-sign"></i> {{test.test_name_human}}<span class="label label-info">Skipped</span>
+                        {% else %}
+                            <i class="icon-check-empty"></i> {{test.test_name_human}}<span class="label label-important">Warning</span>
+                        {% endif %}
+                        
+                    </div>
+                    <div id="widget{{test.test_name}}container" class="block-body collapse results-collapse">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#{{test.test_name}}-result" data-toggle="tab">Result</a></li>
+                            <li><a href="#{{test.test_name}}-description" data-toggle="tab">Test Description</a></li>
+                            <li><a href="#{{test.test_name}}-severity" data-toggle="tab">Severity</a></li>
+                            <li><a href="#{{test.test_name}}-moreinfo" data-toggle="tab">More Info</a></li>
+                            <li><a href="#{{test.test_name}}-rawdata" data-toggle="tab">Raw Data</a></li>
+                        </ul>
+                        <div id="{{test.test_name}}-myTabContent" class="tab-content">
+                            <div class="tab-pane active in" id="{{test.test_name}}-result">
+                                <p>{{test.result}}: {{test.result_human}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-description">
+                                <p>{{test.description}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-severity">
+                                <p>{{test.severity}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-moreinfo">
+                                <p>{{test.moreinfo}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-rawdata">
+                                <p>{{test.raw_data}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="span6">
+        {% if scan_status == "done" %}
+            <h2>Other Security Checks</h2>
+            {% for test in scan_results_other %}
+                <div class="block">
+                    <div class="block-heading collapsed" data-toggle="collapse" data-target="#widget{{test.test_name}}container">
+                        {% if test.result == "pass" %}
+                            <i class="icon-check"></i> {{test.test_name_human}}
+                        {% elif test.result == "skip" or test.result == "unknown" %}
+                            <i class="icon-info-sign"></i> {{test.test_name_human}}<span class="label label-info">Skipped</span>
+                        {% else %}
+                            <i class="icon-check-empty"></i> {{test.test_name_human}}<span class="label label-important">Warning</span>
+                        {% endif %}
+                        
+                    </div>
+                    <div id="widget{{test.test_name}}container" class="block-body collapse results-collapse">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#{{test.test_name}}-result" data-toggle="tab">Result</a></li>
+                            <li><a href="#{{test.test_name}}-description" data-toggle="tab">Test Description</a></li>
+                            <li><a href="#{{test.test_name}}-severity" data-toggle="tab">Severity</a></li>
+                            <li><a href="#{{test.test_name}}-moreinfo" data-toggle="tab">More Info</a></li>
+                            <li><a href="#{{test.test_name}}-rawdata" data-toggle="tab">Raw Data</a></li>
+                        </ul>
+                        <div id="{{test.test_name}}-myTabContent" class="tab-content">
+                            <div class="tab-pane active in" id="{{test.test_name}}-result">
+                                <p>{{test.result}}: {{test.result_human}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-description">
+                                <p>{{test.description}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-severity">
+                                <p>{{test.severity}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-moreinfo">
+                                <p>{{test.moreinfo}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="{{test.test_name}}-rawdata">
+                                <p>{{test.raw_data}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<!-- END FOURTH ROW OF RESULTS-->
+
+{% endblock %}
+
+{% block javascript %}
+    {% if scan_status == "running" %}
+        <script type="text/javascript">
+            var data = 1;
+            var csrfmiddlewaretoken = "{{ csrf_token }}";
+        </script>
+    {% else %}
+        <script type="text/javascript">
+            var data = 0;
+        </script>
+    {% endif %}
+    <script type="text/javascript" src="{{ STATIC_URL }}quickscan/js/scan.js"></script>
+{% endblock %}

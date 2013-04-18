@@ -1,0 +1,55 @@
+{% extends "quickscan/quickscan_index.html" %}
+
+{% block nav-overview %}class="active"{% endblock %}
+
+{% block quickscan_content %}
+<h1 class="page-title" id="page-title">New Scan</h1>
+
+<div class="row-fluid">
+    <div class="block">
+        <p class="block-heading">Run a New Scan</p>
+        <div id="chart-container" class="block-body">
+            {% if error %}
+                <div class="alert alert-error">
+                    <h4 class="alert-heading">Error</h4>
+                    <p>{{error}}</p>
+                </div>
+            {% endif %}
+            <div class="new-scan-form">
+                <form id="new-scan-form" class="form-inline" action="/quickscan/" method="post">
+                    <input class="input-xlarge" placeholder="Enter URL to Scan..." id="url_entered" name="url_entered" type="text">
+                    <button id="begin-scan" class="btn" type="button"><i class="icon-fire"></i> Begin Scan</button><br/><br/>
+                    {% csrf_token %}
+                </form>
+                <p><span class="scan-hint">*If the site has an HTTPS version, use that version to see more results.<br/>You assume all responsibility for use of the scan results.<br/>Scan results will be deleted after 30 days. Don't worry, you can rerun the scan at any time.</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="http-error">
+        <p class="info">Run a scan to receive a web security grade.</p>
+    </div>
+</div>
+
+<!--Error Modal for displaying error messages. Hidden by default until called in JS-->
+<div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3 id="myModalLabel">Error</h3>
+    </div>
+    <div class="modal-body">
+        <p class="error-text"><i class="icon-warning-sign modal-icon"></i><span id="modal_error_msg"></span></p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-danger" data-dismiss="modal">Okay</button>
+    </div>
+</div>
+<!--End Error Modal-->
+
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        var csrfmiddlewaretoken = "{{ csrf_token }}";
+    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}quickscan/js/new.js"></script>
+{% endblock %}
