@@ -53,7 +53,7 @@ def runscans(scan_url, jsonobj, scan_uuid):
     if scan_url.startswith('https://'):
         secure = True
     r = requests.get(scan_url)
-    soup = BeautifulSoup(r.text)
+    soup = BeautifulSoup(r.text, 'html.parser') #Solves hanging issue on mod_wsgi. See: http://stackoverflow.com/questions/12618567/problems-running-beautifulsoup4-within-apache-mod-python-django
     
     #Create scan objects
     httpscheck = HttpsCheck()

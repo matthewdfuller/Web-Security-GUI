@@ -278,14 +278,12 @@ class CsrfFormCheck():
                 self.total_points += 7
                 #Loop through all forms that contain inputs
                 for form in forms:
-                    #print str(form["action"])
                     #Only search for forms that POST (many GET forms are used for searches and do not require CSRF tokens)
                     #if form['method'].lower() == "post":   #Doesn't work for some weird reason. Recognizes GET or POST but then errors out
                     if "post" in str(form.attrs).lower():
                         raw_data += str(form)
                         #Get a list of all the inputs that are children of the form
                         inputs = form.findChildren("input")
-                        print str(inputs)
                         #All possible names for a CSRF token
                         csrf_names = ['csrf_token', 'csrf', 'csrf_val', 'csrftoken', 'csrfmiddlewaretoken', 'authenticity_token']
                         csrf_input = []
@@ -322,7 +320,6 @@ class CharEncodingCheck():
         try:
             #FIND OUT HOW TO GET CHARSET
             meta = soup.findAll('meta')
-            print str(meta)
             result = ""
             result_human = ""
         except:
