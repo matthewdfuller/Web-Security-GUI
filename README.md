@@ -28,6 +28,9 @@ If you are not developing, change the debug setting to False within settings.py.
 ```python
     DEBUG = False
 ```
+You should now be able to run the django server:
+
+    $ python manage.py runserver 127.0.0.1:8000
 
 # Writing Checks
 The file 'secgui/scanner/scantests.py' contains the classes for the various checks performed on the response headers, cookies, and code.
