@@ -1,4 +1,6 @@
 db.sqlite3
 *.pyc
 settings.py
-
+*.log
+*.pot
+local_settings.py
